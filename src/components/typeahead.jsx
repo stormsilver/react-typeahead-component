@@ -22,6 +22,7 @@ module.exports = React.createClass({
     propTypes: process.env.NODE_ENV === 'production' ? {} : {
         inputId: React.PropTypes.string,
         inputName: React.PropTypes.string,
+        inputProps: React.PropTypes.object,
         className: React.PropTypes.string,
         autoFocus: React.PropTypes.bool,
         hoverSelect: React.PropTypes.bool,
@@ -173,6 +174,7 @@ module.exports = React.createClass({
                     value={state.isHintVisible ? props.handleHint(inputValue, props.options) : null}
                 />
                 <Input
+                    {...this.props.inputProps}
                     ref='input'
                     role='combobox'
                     aria-owns={_this.optionsId}
@@ -345,7 +347,7 @@ module.exports = React.createClass({
     },
 
     focus: function() {
-        this.refs.input.getDOMNode().focus();
+        React.findDOMNode(this.refs.input).focus();
     },
 
     handleFocus: function(event) {
@@ -502,7 +504,7 @@ module.exports = React.createClass({
         var _this = this,
             target = event.target;
 
-        if (target !== window && !this.getDOMNode().contains(target)) {
+        if (target !== window && !React.findDOMNode(this).contains(target)) {
             _this.hideHint();
             _this.hideDropdown();
         }
